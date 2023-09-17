@@ -1,0 +1,20 @@
+global using System;
+global using System.Linq;
+global using System.Collections.Generic;
+global using Microsoft.AspNetCore;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.EntityFrameworkCore.SqlServer;
+global using System.ComponentModel.DataAnnotations;
+global using System.ComponentModel.DataAnnotations.Schema;
+global using Microsoft.EntityFrameworkCore.Metadata.Builders;
+global using Fake_IMDB.EF.Repositories;
+global using Football.Core.Services;
+global using Football.Core;
+global using Football.Core.DTOs;
+global using Football.EF;
+global using Football.EF.Data;
+global using Microsoft.EntityFrameworkCore.Migrations.Internal;
+global using Football.Core.Models;
+global using Microsoft.EntityFrameworkCore.Query;
+ 
