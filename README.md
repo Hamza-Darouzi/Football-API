@@ -15,9 +15,6 @@ FootballAPI is a robust and efficient web API built using ASP.NET Core Web API 7
 
 To get started with FootballAPI, clone the repository and set up the development environment with ASP.NET Core Web API 7 and EF Core 7.
 
-## Contributing
-
-Contributions are welcome! Please read the [contributing guidelines] before getting started.
 
 ## License
 
