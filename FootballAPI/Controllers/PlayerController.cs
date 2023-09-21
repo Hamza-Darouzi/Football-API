@@ -6,9 +6,12 @@ namespace FootballAPI.Controllers;
 public class PlayerController: ControllerBase
 {
     private readonly IUnitOfWork _unit;
-    public PlayerController(IUnitOfWork unit)
+    private readonly IMapper _mapper;
+
+    public PlayerController(IUnitOfWork unit, IMapper mapper)
     {
         _unit = unit;
+        _mapper = mapper;
     }
     [HttpGet]
     [Route("GetAllPlayers")]
@@ -34,16 +37,11 @@ public class PlayerController: ControllerBase
     {
         if(model is  null) return NotFound();
         
-        var player = new Player()
-        {
-            Name=model.Name,
-            BirthYear = model.BirthYear,
-            ClubId = model.ClubId
-        };
-         var club = await _unit.Clubs.FindAsync(x=>x.Id==model.ClubId);
-         club.Players.Add(player);
-         await _unit.Players.Create(player);
-         await _unit.Complete();
+        var player = _mapper.Map<Player>(model);
+        var club = await _unit.Clubs.FindAsync(x=>x.Id==model.ClubId);
+        club.Players.Add(player);
+        await _unit.Players.Create(player);
+        await _unit.Complete();
         return Ok(player);
     }
     

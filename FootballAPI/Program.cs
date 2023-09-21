@@ -1,7 +1,4 @@
 
-
-
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -11,6 +8,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//automapper config
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Configuration.AddJsonFile("appsettings.json").Build();
 builder.Services.AddDbContext<AppDbContext>(
                               options => options.UseSqlServer(
@@ -37,3 +36,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+// Built and Developed by Eng. Hamza Darouzi

@@ -1,5 +1,6 @@
 
 
+
 namespace FootballAPI.Controllers;
 
 [ApiController]
@@ -7,9 +8,11 @@ namespace FootballAPI.Controllers;
 public class ClubController: ControllerBase
 {
     private readonly IUnitOfWork _unit;
-    public ClubController(IUnitOfWork unit)
+    private readonly IMapper _mapper;
+    public ClubController(IUnitOfWork unit , IMapper mapper)
     { 
         _unit = unit;
+        _mapper = mapper;
     }
 
     [HttpGet]
@@ -37,14 +40,10 @@ public class ClubController: ControllerBase
     public async Task<IActionResult> Add(ClubDTO model)
     {
         if(model is null) return NotFound();
-        var club = new Club
-        {
-            Name=model.Name,
-            FoundingDate = model.FoundingDate,
-            LeagueId=model.LeagueId
-        };
-         await _unit.Clubs.Create(club);
-         await _unit.Complete();
+        
+        var club = _mapper.Map<Club>(model);
+        await _unit.Clubs.Create(club);
+        await _unit.Complete();
         return Ok(club);
     }
     

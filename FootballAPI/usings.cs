@@ -17,4 +17,4 @@ global using Football.EF.Data;
 global using Microsoft.EntityFrameworkCore.Migrations.Internal;
 global using Football.Core.Models;
 global using Microsoft.EntityFrameworkCore.Query;
- 
+global using AutoMapper;

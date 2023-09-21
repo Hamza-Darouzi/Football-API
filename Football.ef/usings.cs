@@ -16,3 +16,5 @@ global using Microsoft.EntityFrameworkCore.ChangeTracking;
 global using Football.EF.Data.Config;
 global using Football.EF.Conversion;
 global using Football.EF.Data;
+global using Football.Core.DTOs;
+global using AutoMapper;

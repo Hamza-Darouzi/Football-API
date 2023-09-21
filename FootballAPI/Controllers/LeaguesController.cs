@@ -7,10 +7,12 @@ namespace FootballAPI.Controllers;
 public class LeaguesController: ControllerBase
 {
     private readonly IUnitOfWork _unit;
+    private readonly IMapper _mapper;
 
-    public LeaguesController(IUnitOfWork unit)
+    public LeaguesController(IUnitOfWork unit, IMapper mapper)
     { 
         _unit = unit;
+        _mapper = mapper;
     }
 
     [HttpGet]
@@ -38,12 +40,9 @@ public class LeaguesController: ControllerBase
     public async Task<IActionResult> Add(LeagueDTO model)
     {
         if(model is null) return NotFound();
-        var league = new League
-        {
-            Name=model.Name
-        };
-         await _unit.Leagues.Create(league);
-         await _unit.Complete();
+        var league = _mapper.Map<League>(model);
+        await _unit.Leagues.Create(league);
+        await _unit.Complete();
         return Ok(league);
     }
     
