@@ -27,13 +27,29 @@ namespace Football.EF.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "User",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Username = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    RefreshToken_ExpireAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RefreshToken_Token = table.Column<string>(type: "nvarchar(MAX)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_User", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Club",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    FoundingDate = table.Column<DateTime>(type: "date", nullable: false),
+                    FoundingDate = table.Column<DateTime>(type: "date", nullable: true),
                     LeagueId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -75,7 +91,9 @@ namespace Football.EF.Migrations
                 values: new object[,]
                 {
                     { 1, "La Liga" },
-                    { 2, "Premiere League" }
+                    { 2, "Premiere League" },
+                    { 3, "League 1" },
+                    { 4, "Serie A" }
                 });
 
             migrationBuilder.InsertData(
@@ -84,7 +102,11 @@ namespace Football.EF.Migrations
                 values: new object[,]
                 {
                     { 1, new DateTime(1899, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "Fc Barcelona" },
-                    { 2, new DateTime(1902, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "Real Madrid" }
+                    { 2, new DateTime(1902, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "Real Madrid" },
+                    { 3, null, 3, "PSG" },
+                    { 4, null, 4, "Napoli" },
+                    { 5, null, 2, "Manchester City" },
+                    { 6, null, 2, "Liverpool" }
                 });
 
             migrationBuilder.InsertData(
@@ -92,12 +114,12 @@ namespace Football.EF.Migrations
                 columns: new[] { "Id", "BirthYear", "ClubId", "Name", "Nation" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(1987, 6, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "Lioniel Messi", "" },
-                    { 2, new DateTime(1984, 5, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "Andres Iniesta", "" },
-                    { 3, new DateTime(1980, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "Xavi Hernandez", "" },
-                    { 4, new DateTime(1985, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "Cristiano Ronaldo", "" },
-                    { 5, new DateTime(1987, 12, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "Karim Benzema", "" },
-                    { 6, new DateTime(1982, 4, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "KAKA", "" }
+                    { 1, new DateTime(1987, 6, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "Lioniel Messi", "Argentina" },
+                    { 2, new DateTime(1984, 5, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "Andres Iniesta", "Spain" },
+                    { 3, new DateTime(1980, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "Xavi Hernandez", "Spain" },
+                    { 4, new DateTime(1985, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "Cristiano Ronaldo", "Portugal" },
+                    { 5, new DateTime(1987, 12, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "Karim Benzema", "France" },
+                    { 6, new DateTime(1982, 4, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "KAKA", "Brazil" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -106,9 +128,30 @@ namespace Football.EF.Migrations
                 column: "LeagueId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Club_Name",
+                table: "Club",
+                column: "Name");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_League_Name",
+                table: "League",
+                column: "Name");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Player_ClubId",
                 table: "Player",
                 column: "ClubId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Player_Name",
+                table: "Player",
+                column: "Name");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_User_Username",
+                table: "User",
+                column: "Username",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -116,6 +159,9 @@ namespace Football.EF.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Player");
+
+            migrationBuilder.DropTable(
+                name: "User");
 
             migrationBuilder.DropTable(
                 name: "Club");

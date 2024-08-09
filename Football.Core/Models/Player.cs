@@ -11,8 +11,7 @@ public class Player
 
     [NotMapped]
     public int Age => (DateTime.Now.Year-BirthYear.Year);
-    public int? ClubId { get; set; }
-    [JsonIgnore]
-    public Club? Club { get; set; }
+    public  int? ClubId { get; set; }
+    public  Club? Club { get; set; }
     
 }

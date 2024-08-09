@@ -1,77 +1,57 @@
 
-
 namespace FootballAPI.Controllers;
 
 [ApiController]
-[Route("[Controller]")]
-public class ClubController: ControllerBase
+[Authorize]
+[Route("api/[controller]")]
+public class ClubController(IClubService clubService): ControllerBase
 {
-    private readonly IUnitOfWork _unit;
-    public ClubController(IUnitOfWork unit)
-    { 
-        _unit = unit;
+    private readonly IClubService _clubService = clubService;
+
+    [HttpGet("GetAll")]
+    public async Task<IActionResult> GetAll(int page=1,int size=10)
+    {
+        var response = await _clubService.GetAll(page,size);
+        if(response.data is null) 
+            return NoContent();
+        return Ok(response);
     }
 
-    [HttpGet]
-    [Route("GetAllClubs")]
-    public async Task<IActionResult> GetAll()
+    [HttpGet("Get/{id}")]
+    public async Task<IActionResult> Get(int id)
     {
-        var clubs = await _unit.Clubs.GetAllAsync();
-        if(clubs.Count==0) return NoContent();
-        return Ok(clubs);
-    }
-    
-    [HttpGet]
-    [Route("GetClub")]
-    public async Task<IActionResult> GetById(int id)
-    {
-        var club = await _unit.Clubs.FindAsync(x=>x.Id==id,new[]{"Players"});
-        if(club is  null)
-            return NotFound();
-        return Ok(club);
+        var response = await _clubService.Get(id);
+        if(response is null)
+            return BadRequest(response);
+        return Ok(response);
 
     }
 
-    [HttpPost]
-    [Route("AddClub")]
-    public async Task<IActionResult> Add(ClubDTO model)
+    [HttpPost("Create")]
+    public async Task<IActionResult> Create(CreateClubDTO request)
     {
-        if(model is null) return NotFound();
-        var club = new Club
-        {
-            Name=model.Name,
-            FoundingDate = model.FoundingDate,
-            LeagueId=model.LeagueId
-        };
-         await _unit.Clubs.Create(club);
-         await _unit.Complete();
-        return Ok(club);
+        var response = await _clubService.Create(request);
+        if (response.data is false)
+            return BadRequest(response);
+        return Ok(response);
     }
-    
-    [HttpDelete]
-    [Route("DeleteClub")]
+
+    [HttpDelete("Delete/{id}")]
     public async Task<IActionResult>Delete(int id)
     {
-        var club = await _unit.Clubs.FindAsync(x=>x.Id==id);
-        if(club is null ) return NotFound();
-        
-       _unit.Clubs.Delete(club);
-       await _unit.Complete();
-        return Ok();
+        var response = await _clubService.Delete(id);
+        if (response.data is false)
+            return BadRequest(response);
+        return Ok(response);
     }
 
-    [HttpPut]
-    [Route("UpdateClub")]
-    public async Task<IActionResult>Update(ClubDTO model)
+    [HttpPut("Update")]
+    public async Task<IActionResult>Update(UpdateClubDTO request)
     {
-        var club = await _unit.Clubs.FindAsync(x=>x.Id==model.Id);
-        if(club is null ) return NotFound();
-        club.Name=model.Name;
-        club.LeagueId=model.LeagueId;
-        club.FoundingDate = model.FoundingDate;
-        _unit.Clubs.Update(club);
-        await _unit.Complete();
-        return Ok();
+        var response = await _clubService.Update(request);
+        if (response.data is false)
+            return BadRequest(response);
+        return Ok(response);
     }
     
 }

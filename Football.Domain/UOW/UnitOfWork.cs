@@ -1,14 +1,17 @@
 ﻿
 
 
-namespace Football.EF;
+namespace Football.Domain.UOW;
 
 public class UnitOfWork:IUnitOfWork
 {
     private readonly AppDbContext _context;
-    public IBaseService <Club>   Clubs   { get; private set; }
-    public IBaseService <Player> Players { get; private set; }
-    public IBaseService <League> Leagues { get; private set; }
+    public IBaseRepository <Club>   Clubs   { get; private set; }
+    public IBaseRepository <Player> Players { get; private set; }
+    public IBaseRepository <League> Leagues { get; private set; }
+    public IBaseRepository <User> Users { get; private set; }
+    public IBaseRepository <RefreshToken> RefreshTokens { get; private set; }
+
 
     public UnitOfWork(AppDbContext context)
     {
@@ -16,6 +19,8 @@ public class UnitOfWork:IUnitOfWork
         Clubs = new BaseRepository<Club>(_context);
         Players = new BaseRepository<Player>(_context);
         Leagues = new BaseRepository<League>(_context);
+        Users = new BaseRepository<User>(_context);
+        RefreshTokens = new BaseRepository<RefreshToken>(_context);
     }
 
     public async Task<int>  Complete()
