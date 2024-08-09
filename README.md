@@ -15,6 +15,10 @@ FootballAPI is a robust and efficient web API built using ASP.NET Core 8. It lev
 - **Minimal API**: An additional project within the solution that showcases the use of Minimal APIs for building lightweight HTTP services.
 - **Pagination**: Implemented to facilitate easier data browsing, allowing users to navigate through large datasets efficiently.
 
+## CORS Policy Note
+
+Please be aware that this project has been configured to allow all Cross-Origin Resource Sharing (CORS) requests. While this makes the API accessible to all users, it poses security risks as it allows any domain to interact with your API. It's recommended to restrict CORS to trusted origins in production environments to safeguard your application.
+
 ## Getting Started
 
 To get started with FootballAPI, follow these steps:
