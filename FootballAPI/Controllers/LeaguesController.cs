@@ -1,73 +1,54 @@
-
-
 namespace FootballAPI.Controllers;
 
 [ApiController]
-[Route("[Controller]")]
-public class LeaguesController: ControllerBase
+[Authorize]
+[Route("api/[controller]")]
+public class LeaguesController(ILeagueService leagueService) : ControllerBase
 {
-    private readonly IUnitOfWork _unit;
+    private readonly ILeagueService _leagueService = leagueService;
 
-    public LeaguesController(IUnitOfWork unit)
-    { 
-        _unit = unit;
+    [HttpGet("GetAll")]
+    public async Task<IActionResult> GetAll(int page=1,int size=10)
+    {
+        var response = await _leagueService.GetAll(page,size);
+        if (response.data is null)
+            return NoContent();
+        return Ok(response);
     }
 
-    [HttpGet]
-    [Route("GetAllLeagues")]
-    public async Task<IActionResult> GetAll()
+    [HttpGet("Get/{id}")]
+    public async Task<IActionResult> Get(int id)
     {
-        var leagues = await _unit.Leagues.GetAllAsync();
-        if(leagues.Count==0) return NoContent();
-        return Ok(leagues);
-    }
-    
-    [HttpGet]
-    [Route("GetLeague")]
-    public async Task<IActionResult> GetById(int id)
-    {
-        var league = await _unit.Leagues.FindAsync(x=>x.Id==id,new[]{"Clubs"});
-        if(league is  null)
-            return NotFound();
-        return Ok(league);
-
+        var response = await _leagueService.Get(id);
+        if (response is null)
+            return BadRequest(response);
+        return Ok(response);
     }
 
-    [HttpPost]
-    [Route("AddLeague")]
-    public async Task<IActionResult> Add(LeagueDTO model)
+    [HttpPost("Create")]
+    public async Task<IActionResult> Create(CreateLeagueDTO request)
     {
-        if(model is null) return NotFound();
-        var league = new League
-        {
-            Name=model.Name
-        };
-         await _unit.Leagues.Create(league);
-         await _unit.Complete();
-        return Ok(league);
-    }
-    
-    [HttpDelete]
-    [Route("DeleteLeague")]
-    public async Task<IActionResult>Delete(int id)
-    {
-        var league = await _unit.Leagues.FindAsync(x=>x.Id==id);
-        if(league is null ) return NotFound();
-        
-       _unit.Leagues.Delete(league);
-       await _unit.Complete();
-        return Ok();
+        var response = await _leagueService.Create(request);
+        if (response.data is false)
+            return BadRequest(response);
+        return Ok(response);
     }
 
-    [HttpPut]
-    [Route("UpdateLeague")]
-    public async Task<IActionResult>Update(LeagueDTO model)
+    [HttpDelete("Delete/{id}")]
+    public async Task<IActionResult> Delete(int id)
     {
-        var league = await _unit.Leagues.FindAsync(x=>x.Id==model.Id);
-        if(league is null ) return NotFound();
-        league.Name=model.Name;
-        _unit.Leagues.Update(league);
-        await _unit.Complete();
-        return Ok();
+        var response = await _leagueService.Delete(id);
+        if (response.data is false)
+            return BadRequest(response);
+        return Ok(response);
+    }
+
+    [HttpPut("Update")]
+    public async Task<IActionResult> Update(UpdateLeagueDTO request)
+    {
+        var response = await _leagueService.Update(request);
+        if (response.data is false)
+            return BadRequest(response);
+        return Ok(response);
     }
 }

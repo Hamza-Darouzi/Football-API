@@ -1,0 +1,5 @@
+﻿@FootballAPI_HostAddress = https://localhost:44375
+
+GET {{FootballAPI_HostAddress}}/api/club/GetAll
+
+###

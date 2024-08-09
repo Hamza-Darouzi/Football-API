@@ -1,76 +1,55 @@
-
 namespace FootballAPI.Controllers;
 
 [ApiController]
-[Route("[Controller]")]
-public class PlayerController: ControllerBase
+[Authorize]
+[Route("api/[controller]")]
+public class PlayerController(IPlayersService playersService) : ControllerBase
 {
-    private readonly IUnitOfWork _unit;
-    public PlayerController(IUnitOfWork unit)
+    private readonly IPlayersService _playersService = playersService;
+
+    [HttpGet("GetAll")]
+    public async Task<IActionResult> GetAll(int page, int size)
     {
-        _unit = unit;
-    }
-    [HttpGet]
-    [Route("GetAllPlayers")]
-    public async Task<IActionResult> GetAll()
-    {
-        var players = await _unit.Players.GetAllAsync();
-        if(players is null ) return NotFound();
-        return Ok(players);
+        var response = await _playersService.GetAll(page,size);
+        if (response.data is null)
+            return NoContent();
+        return Ok(response);
     }
 
-    [HttpGet]
-    [Route("GetPlayer")]
-    public async Task<IActionResult> GetById(int id)
+    [HttpGet("Get/{id}")]
+    public async Task<IActionResult> Get(int id)
     {
-        var player = await _unit.Players.FindAsync(x => x.Id == id, new[] { "Club" });
-        if(player is null ) return NotFound();
-        return Ok(player);
+        var response = await _playersService.Get(id);
+        if (response is null)
+            return BadRequest(response);
+        return Ok(response);
     }
 
-    [HttpPost]
-    [Route("AddPlayer")]
-    public async Task<ActionResult> Add(PlayerDTO model)
+    [HttpPost("Create")]
+    public async Task<IActionResult> Create(CreatePlayerDTO request)
     {
-        if(model is  null) return NotFound();
-        
-        var player = new Player()
-        {
-            Name=model.Name,
-            BirthYear = model.BirthYear,
-            ClubId = model.ClubId
-        };
-         var club = await _unit.Clubs.FindAsync(x=>x.Id==model.ClubId);
-         club.Players.Add(player);
-         await _unit.Players.Create(player);
-         await _unit.Complete();
-        return Ok(player);
+        var response = await _playersService.Create(request);
+        if (response.data is false)
+            return BadRequest(response);
+        return Ok(response);
     }
-    
-    [HttpPut]
-    [Route("UpdatePlayer")]
-    public async Task<IActionResult> Update(Player model)
-    {
-        var player = await _unit.Players.FindAsync(x=>x.Id==model.Id);
-        if(player is null ) return NotFound();
-        player.Name=model.Name;
-        player.BirthYear=model.BirthYear;
-        player.ClubId = model.ClubId;
-        player.Nation = model.Nation;
-        _unit.Players.Update(player);
-        await _unit.Complete();
-        return Ok();
-    }
-    
-    [HttpDelete]
-    [Route("DeletePlayer")]
+
+    [HttpDelete("Delete/{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var player =  await _unit.Players.FindAsync(x=>x.Id==id);
-        if(player is null ) return NotFound();
-        _unit.Players.Delete(player);
-        await _unit.Complete();
-        return Ok();
+        var response = await _playersService.Delete(id);
+        if (response.data is false)
+            return BadRequest(response);
+        return Ok(response);
     }
-    
+
+    [HttpPut("Update")]
+    public async Task<IActionResult> Update(UpdatePlayerDTO request)
+    {
+        var response = await _playersService.Update(request);
+        if (response.data is false)
+            return BadRequest(response);
+        return Ok(response);
+    }
+
 }

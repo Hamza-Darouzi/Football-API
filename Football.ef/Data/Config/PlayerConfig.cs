@@ -7,15 +7,27 @@ public class PlayerConfig : IEntityTypeConfiguration<Player>
     {
         //Properties
         builder.HasKey(x=>x.Id);
-        builder.Property(x=>x.Id).HasColumnType("int").UseIdentityColumn(1,1).ValueGeneratedOnAdd().IsRequired();
-        builder.Property(x=>x.Name).HasMaxLength(100).HasColumnType("nvarchar").IsRequired();
-        builder.Property(x=>x.Nation).HasMaxLength(100).HasColumnType("nvarchar").IsRequired();
+        builder.Property(x => x.Id)
+               .UseIdentityColumn(1, 1)
+               .ValueGeneratedOnAdd();
+
+        builder.Property(x=>x.Name)
+               .HasMaxLength(100)
+               .HasColumnType("nvarchar")
+               .IsRequired();
+
+        builder.Property(x=>x.Nation)
+               .HasMaxLength(100)
+               .HasColumnType("nvarchar")
+               .IsRequired();
         
-        builder.Property<DateOnly>(x => x.BirthYear)
+        builder.Property(x => x.BirthYear)
                .HasConversion<DateOnlyConverter, DateOnlyComparer>()
                .HasColumnType("date");
-        
+
+        builder.HasIndex(x => x.Name);
         //Relationship 1 Clubs -> Many Players
+
         builder.HasOne(x=>x.Club)
                 .WithMany(x=>x.Players)
                 .HasForeignKey(x=>x.ClubId)

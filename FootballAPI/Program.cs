@@ -1,39 +1,21 @@
 
 
-
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
 builder.Configuration.AddJsonFile("appsettings.json").Build();
-builder.Services.AddDbContext<AppDbContext>(
-                              options => options.UseSqlServer(
-                                  builder.Configuration.GetConnectionString("DefaultConnection")
-                                  , x => x.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName)
-                                  )
-                              ) ;
+builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddTransient<IUnitOfWork,UnitOfWork>();
-builder.Services.AddTransient(typeof(IBaseService<>), typeof(BaseRepository<>));
+builder.Services.ConfigureInfrastructre(builder.Configuration)
+                .ConfigureSecurity(builder.Configuration)
+                .ConfigureServices();
+
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+app.UseMiddleWares();
+app.Use(async (context, next) =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
+    context.Response.Headers.Add("X-Developed-By", "Eng Hamza Darouzi");
+    await next.Invoke();
+});
 app.Run();
