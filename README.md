@@ -7,13 +7,14 @@ FootballAPI is a robust and efficient web API built using ASP.NET Core 8. It lev
 - **ASP.NET Core 8**: A framework for building HTTP services with the latest features and improvements.
 - **Entity Framework Core 8 (EF Core 8)**: A lightweight, extensible, open-source, and cross-platform version of the popular Entity Framework data access technology.
 - **Domain-Driven Design (DDD)**: An architectural approach that focuses on modeling the domain and its logic, promoting a clear structure and understanding of business requirements.
-- **Clean Architecture**: An architectural approach that separates the software into concentric layers with a strong emphasis on separation of concerns, resulting in a loosely coupled and easily testable application.
-- **Repository Pattern**: A design pattern that mediates data from and to the domain and data mapping layers (like Entity Framework).
-- **Unit of Work**: A design pattern that maintains a list of objects affected by a business transaction and coordinates the writing out of changes.
-- **AutoMapper**: A simple library built to map one object to another, reducing the need for boilerplate code.
-- **JWT Authentication**: A secure method for authenticating users in your API.
-- **Minimal API**: An additional project within the solution that showcases the use of Minimal APIs for building lightweight HTTP services.
-- **Pagination**: Implemented to facilitate easier data browsing, allowing users to navigate through large datasets efficiently.
+- **Clean Architecture**: Separates the software into concentric layers with a strong emphasis on separation of concerns, resulting in a loosely coupled and easily testable application.
+- **Repository Pattern**: Mediates data access between the domain layer and persistence layer (e.g., EF Core).
+- **Unit of Work**: Coordinates transactional operations across multiple repositories to ensure data consistency.
+- **Mediator Pattern (MediatR)**: Decouples components by encapsulating requests, commands, and queries, improving maintainability and testability.
+- **AutoMapper**: Simplifies object-to-object mapping, reducing boilerplate code for data transformations.
+- **Microsoft Identity**: Provides robust authentication and authorization, integrated with ASP.NET Core Identity for user and role management.
+- **JWT Authentication**: Securely authenticates API users, leveraging Microsoft Identity for token generation and validation.
+- **Minimal API**: A lightweight project showcasing streamlined HTTP service development with ASP.NET Core Minimal APIs.
 
 ## CORS Policy Note
 
