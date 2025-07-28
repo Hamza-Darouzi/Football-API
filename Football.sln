@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35806.99
+VisualStudioVersion = 17.13.35806.99 d17.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Football.Api", "Football.Api\Football.Api.csproj", "{3D100CBF-FEAA-43FA-BC66-8F8C58F59D27}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Football.Application", "Football.Application\Football.Application.csproj", "{EA797954-B64C-48DF-93F1-96BAD4AF93ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Football.Infrastructure", "Football.Infrastructure\Football.Infrastructure.csproj", "{8C7F8ED4-02A1-4B3A-BD32-E53E6069EB13}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Football.Domain", "Football.Domain\Football.Domain.csproj", "{E81EF5DE-B5B6-4B15-B839-0989F129F4C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Football.Domain", "Football.Domain\Football.Domain.csproj", "{39E2E144-CFF0-45B8-A84A-9FE6E9740C84}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Football.Infrastructure", "Football.Infrastructure\Football.Infrastructure.csproj", "{8C7F8ED4-02A1-4B3A-BD32-E53E6069EB13}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,14 +25,14 @@ Global
 		{EA797954-B64C-48DF-93F1-96BAD4AF93ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA797954-B64C-48DF-93F1-96BAD4AF93ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA797954-B64C-48DF-93F1-96BAD4AF93ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E81EF5DE-B5B6-4B15-B839-0989F129F4C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E81EF5DE-B5B6-4B15-B839-0989F129F4C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E81EF5DE-B5B6-4B15-B839-0989F129F4C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E81EF5DE-B5B6-4B15-B839-0989F129F4C0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8C7F8ED4-02A1-4B3A-BD32-E53E6069EB13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8C7F8ED4-02A1-4B3A-BD32-E53E6069EB13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C7F8ED4-02A1-4B3A-BD32-E53E6069EB13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C7F8ED4-02A1-4B3A-BD32-E53E6069EB13}.Release|Any CPU.Build.0 = Release|Any CPU
-		{39E2E144-CFF0-45B8-A84A-9FE6E9740C84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{39E2E144-CFF0-45B8-A84A-9FE6E9740C84}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{39E2E144-CFF0-45B8-A84A-9FE6E9740C84}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{39E2E144-CFF0-45B8-A84A-9FE6E9740C84}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

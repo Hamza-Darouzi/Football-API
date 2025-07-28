@@ -1,7 +1,6 @@
 ﻿
 
 
-
 namespace Football.Domain.Entities;
 
 public class User:IdentityUser<int>
